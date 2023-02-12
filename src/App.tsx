@@ -1,52 +1,98 @@
 import React, { useState } from "react";
 import "./App.css";
 import CreateTask from "./components/CreateTask";
-import Task from "./components/Task";
 import { TaskType } from "./models";
-
+import TodoList from "./components/TodoList";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 const App: React.FC = () => {
   const [todo, setTodo] = useState<TaskType[]>([]);
   const [doneTasks, setDoneTasks] = useState<TaskType[]>([]);
+  const completeHandle = (
+    destinationIndex: number,
+    sourceIndex: number,
+    task: TaskType
+  ) => {
+    setDoneTasks((prev: TaskType[]) => {
+      prev.splice(destinationIndex || 0, 0, { ...task, isDone: true });
+      return prev;
+    });
+    setTodo((prev: TaskType[]) => {
+      prev.splice(sourceIndex || 0, 1);
+      return prev;
+    });
+  };
+  const nonCompleteHandle = (
+    destinationIndex: number,
+    sourceIndex: number,
+    task: TaskType
+  ) => {
+    setDoneTasks((prev: TaskType[]) => {
+      prev.splice(sourceIndex || 0, 1);
+      return prev;
+    });
+    setTodo((prev: TaskType[]) => {
+      prev.splice(destinationIndex || 0, 0, { ...task, isDone: false });
+      return prev;
+    });
+  };
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return;
+    }
+    if (
+      result.destination.droppableId === result.source.droppableId &&
+      result.destination.index === result.source.index
+    ) {
+      return;
+    }
+    if (
+      result.destination?.droppableId === "TodoCompletedList" &&
+      result.source.droppableId === "TodoList"
+    ) {
+      completeHandle(
+        result.destination.index,
+        result.source.index,
+        todo[result.source.index]
+      );
+    } else if (
+      result.destination?.droppableId === "TodoList" &&
+      result.source.droppableId === "TodoCompletedList"
+    ) {
+      nonCompleteHandle(
+        result.destination.index,
+        result.source.index,
+        doneTasks[result.source.index]
+      );
+    } else {
+      if (result.source.droppableId === "TodoCompletedList") {
+        const task = doneTasks[result.source.index]
+        doneTasks.splice(result.source.index || 0, 1);
+        doneTasks.splice(result.destination?.index || 0, 0, task);
+        setDoneTasks(doneTasks);
+      } else {
+        const task = todo[result.source.index]
+        todo.splice(result.source.index || 0, 1);
+        todo.splice(result.destination?.index || 0, 0, task);
+        setTodo(todo);
+      }
+    }
+  };
   return (
-    <div className="main-container">
-      <div className="heading-container">
-        <h3 className="heaing">Taskify</h3>
-        <CreateTask setTodo={setTodo} />
-      </div>
-      <div className="task-section">
-        <div className="tasks-container">
-          <h3 className="sub-heading">Tasks to finish</h3>
-          {todo.length ? (
-            todo.map((task: TaskType) => (
-              <Task
-                key={task.id}
-                setDoneTasks={setDoneTasks}
-                setTodo={setTodo}
-                task={task}
-              />
-            ))
-          ) : (
-            <span className="sub-heading">No tasks here</span>
-          )}
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="main-container">
+        <div className="heading-container">
+          <h3 className="heaing">Time Booster</h3>
+          <CreateTask setTodo={setTodo} />
         </div>
-
-        <div className="tasks-container">
-          <h3 className="sub-heading">Finished Tasks</h3>
-          {doneTasks.length ? (
-            doneTasks.map((task: TaskType) => (
-              <Task
-                setDoneTasks={setDoneTasks}
-                key={task.id}
-                setTodo={setDoneTasks}
-                task={task}
-              />
-            ))
-          ) : (
-            <span className="sub-heading">No tasks here</span>
-          )}
-        </div>
+        <p className="info">Here, you can either drag and drop tasks to complete or vice versa.</p>
+        <TodoList
+          todo={todo}
+          setTodo={setTodo}
+          doneTasks={doneTasks}
+          setDoneTasks={setDoneTasks}
+        />
       </div>
-    </div>
+    </DragDropContext>
   );
 };
 

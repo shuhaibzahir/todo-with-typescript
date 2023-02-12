@@ -1,5 +1,5 @@
 .main-container{
- background-color: rgb(10, 59, 93);
+ background-color: #13005A;
  height: 100vh;
  padding: 2rem;
  overflow-y: auto;
@@ -37,17 +37,23 @@
 }
 
 .create-task button{
-  background-color:rgb(10, 59, 93) ;
+  background-color:#00337C ;
   color: #fff;
   border: none;
   border-radius: 100%;
   padding: 1rem;
   cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.create-task button:hover{
+  background-color:#1C82AD ;
+  color: #ffffff;
 }
 
 .task-section {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 .tasks-container{
   display: flex;
@@ -57,14 +63,22 @@
   overflow-y: auto;
   overflow-x: hidden;
   margin-top: 1rem;
-  padding: 1rem;
+  padding: 2rem;
+  background-color: #1C82AD;
+  border-radius: 10px;
 }
+
+.finished {
+  background-color: #03C988;
+}
+
 
 .task {
   background-color: #f6ff00;
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   margin-bottom: 10px;
   transition: 0.3s ease-in-out;
+  cursor: pointer;
 }
 .task:hover{
   transform: scale(1.1);
@@ -76,10 +90,22 @@
   outline: none;
   background-color: transparent;
 }
+
+.active-input{
+  background-color: #13005A;
+}
+.active-input input{
+  color: #fff;
+}
+
  
 .task .button{
   margin-left: 10px;
   cursor: pointer;
+  color: #13005A;
+}
+.active-input .button{
+  color: #fff;
 }
 .round{
    padding: 0.7rem;
@@ -89,7 +115,13 @@
 }
 
 .sub-heading{
-  color: #fff;
+  color: #ffff;
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.info{
+  text-align: center;
+  color: #fff;
+  padding: 1rem;
 }

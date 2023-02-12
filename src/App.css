@@ -1,38 +1,95 @@
-.App {
-  text-align: center;
+.main-container{
+ background-color: rgb(10, 59, 93);
+ height: 100vh;
+ padding: 2rem;
+ overflow-y: auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.heading-container{
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: column;
+  color: #fff;
+}
+.heaing{
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.create-task{
+  padding: 0.5rem 1.5rem;
+  background-color: #fff;
+  border-radius: 30px;
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  -webkit-box-shadow: inset 0px -1px 12px 2px rgba(64,64,64,0.71);
+  -moz-box-shadow: inset 0px -1px 12px 2px rgba(64,64,64,0.71);
+  box-shadow: inset 0px -1px 12px 2px rgba(64,64,64,0.71);
+ 
 }
 
-.App-link {
-  color: #61dafb;
+.create-task input{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+  font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.create-task button{
+  background-color:rgb(10, 59, 93) ;
+  color: #fff;
+  border: none;
+  border-radius: 100%;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.task-section {
+  display: flex;
+  justify-content: space-around;
+}
+.tasks-container{
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.task {
+  background-color: #f6ff00;
+  padding: 0.5rem 1rem;
+  margin-bottom: 10px;
+  transition: 0.3s ease-in-out;
+}
+.task:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.task input{
+  border: none;
+  font-size: medium;
+  outline: none;
+  background-color: transparent;
+}
+ 
+.task .button{
+  margin-left: 10px;
+  cursor: pointer;
+}
+.round{
+   padding: 0.7rem;
+  border: 2px solid #ffffff;
+   background-color: #82e9a7;
+   color: #01481c;
+}
+
+.sub-heading{
+  color: #fff;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }

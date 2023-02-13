@@ -12,7 +12,11 @@ const CreateTask:React.FC<Props> = ({setTodo}) => {
       isDone:false,
     }
     if(task.trim()){
-      setTodo((prev:TaskType[]) => [...prev, todo])
+      setTodo((prev:TaskType[]) => {
+        const newData = [...prev, todo]
+        localStorage.setItem("todo",JSON.stringify(newData))
+        return newData
+      })
     }
     setTask("")
 

@@ -16,7 +16,12 @@ const Task = ({task,index, setTodo, setDoneTasks}:Props) => {
     const [editTask, setEditTask] = useState(task)
     const handlSave: Function = ():void => {
         setEdit(false)
-        setTodo((prev: TaskType[]) => prev.map((task:TaskType)=> task.id === editTask.id ? editTask : task ))
+        setTodo((prev: TaskType[]) => {
+            const newData = prev.map((task:TaskType)=> task.id === editTask.id ? editTask : task)
+            localStorage.setItem("todo",JSON.stringify(newData))
+            return newData
+        } )
+
     }
     const handleEdit = () =>{
         inputTask.current?.focus();
@@ -24,11 +29,19 @@ const Task = ({task,index, setTodo, setDoneTasks}:Props) => {
     }
 
     const handleDelete = () =>{
-        setTodo((prev: TaskType[])=> prev.filter((task: TaskType)=> task.id !== editTask.id))
+        setTodo((prev: TaskType[])=> {
+           const newData=  prev.filter((task: TaskType)=> task.id !== editTask.id)
+           localStorage.setItem("todo",JSON.stringify(newData))
+           return newData
+        })
     }
 
     const handleDone = () => {
-        setDoneTasks((prev: TaskType[]) => [...prev, {...task,isDone: true}])
+        setDoneTasks((prev: TaskType[]) => {
+            const newData = [...prev, {...task,isDone: true}]
+            localStorage.setItem("doneTasks",JSON.stringify(newData))
+            return newData
+        })
         handleDelete()
     }
   return (

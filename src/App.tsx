@@ -5,8 +5,10 @@ import { TaskType } from "./models";
 import TodoList from "./components/TodoList";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 const App: React.FC = () => {
-  const [todo, setTodo] = useState<TaskType[]>([]);
-  const [doneTasks, setDoneTasks] = useState<TaskType[]>([]);
+  const todoJson = localStorage.getItem("todo") ? JSON.parse(localStorage.getItem("todo") || ""): []
+  const doneTasksJosn = localStorage.getItem("doneTasks") ? JSON.parse(localStorage.getItem("doneTasks") || ""): []
+  const [todo, setTodo] = useState<TaskType[]>(todoJson);
+  const [doneTasks, setDoneTasks] = useState<TaskType[]>(doneTasksJosn);
   const completeHandle = (
     destinationIndex: number,
     sourceIndex: number,
@@ -14,10 +16,12 @@ const App: React.FC = () => {
   ) => {
     setDoneTasks((prev: TaskType[]) => {
       prev.splice(destinationIndex || 0, 0, { ...task, isDone: true });
+      localStorage.setItem("doneTasks",JSON.stringify(prev))
       return prev;
     });
     setTodo((prev: TaskType[]) => {
       prev.splice(sourceIndex || 0, 1);
+      localStorage.setItem("todo",JSON.stringify(prev))
       return prev;
     });
   };
@@ -28,10 +32,12 @@ const App: React.FC = () => {
   ) => {
     setDoneTasks((prev: TaskType[]) => {
       prev.splice(sourceIndex || 0, 1);
+      localStorage.setItem("doneTasks",JSON.stringify(prev))
       return prev;
     });
     setTodo((prev: TaskType[]) => {
       prev.splice(destinationIndex || 0, 0, { ...task, isDone: false });
+      localStorage.setItem("todo",JSON.stringify(prev))
       return prev;
     });
   };
@@ -68,11 +74,13 @@ const App: React.FC = () => {
         const task = doneTasks[result.source.index]
         doneTasks.splice(result.source.index || 0, 1);
         doneTasks.splice(result.destination?.index || 0, 0, task);
+        localStorage.setItem("doneTasks",JSON.stringify(doneTasks))
         setDoneTasks(doneTasks);
       } else {
         const task = todo[result.source.index]
         todo.splice(result.source.index || 0, 1);
         todo.splice(result.destination?.index || 0, 0, task);
+        localStorage.setItem("todo",JSON.stringify(todo))
         setTodo(todo);
       }
     }

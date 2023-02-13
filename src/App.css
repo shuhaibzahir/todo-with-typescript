@@ -125,3 +125,20 @@
   color: #fff;
   padding: 1rem;
 }
+
+
+@media screen and (max-width: 992px) {
+  .create-task {
+    width: 100%;
+  }
+  .task input{
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .round{
+    padding: 0;
+    border:none;
+     background-color: transparent;
+     color: #82e9a7;
+  }
+}

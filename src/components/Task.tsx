@@ -28,12 +28,21 @@ const Task = ({task,index, setTodo, setDoneTasks}:Props) => {
         setEdit(true)
     }
 
-    const handleDelete = () =>{
-        setTodo((prev: TaskType[])=> {
-           const newData=  prev.filter((task: TaskType)=> task.id !== editTask.id)
-           localStorage.setItem("todo",JSON.stringify(newData))
-           return newData
-        })
+    const handleDelete = (isDone:boolean) =>{
+        if(isDone){
+            setDoneTasks((prev: TaskType[])=> {
+                const newData=  prev.filter((task: TaskType)=> task.id !== editTask.id)
+                localStorage.setItem("doneTasks",JSON.stringify(newData))
+                return newData
+             })
+        }else{
+            setTodo((prev: TaskType[])=> {
+                const newData=  prev.filter((task: TaskType)=> task.id !== editTask.id)
+                localStorage.setItem("todo",JSON.stringify(newData))
+                return newData
+             })
+        }
+
     }
 
     const handleDone = () => {
@@ -42,7 +51,7 @@ const Task = ({task,index, setTodo, setDoneTasks}:Props) => {
             localStorage.setItem("doneTasks",JSON.stringify(newData))
             return newData
         })
-        handleDelete()
+        handleDelete(false)
     }
   return (
     <Draggable draggableId={task.id.toString()} index={index}>
@@ -58,7 +67,7 @@ const Task = ({task,index, setTodo, setDoneTasks}:Props) => {
                         handleEdit()
                     }}/>
             }
-            <MdDelete className='button' onClick={()=>{handleDelete()}}/>
+            <MdDelete className='button' onClick={()=>{handleDelete(true)}}/>
             {
                 !task.isDone && !edit? <span className='button round' onClick={() => {handleDone()}}>
                 <IoMdDoneAll/>

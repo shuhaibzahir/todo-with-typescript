@@ -28,7 +28,7 @@ const Task = ({task,index, setTodo, setDoneTasks}:Props) => {
         setEdit(true)
     }
 
-    const handleDelete = (isDone:boolean) =>{
+    const handleDelete = (isDone:any) =>{
         if(isDone){
             setDoneTasks((prev: TaskType[])=> {
                 const newData=  prev.filter((task: TaskType)=> task.id !== editTask.id)
@@ -67,7 +67,7 @@ const Task = ({task,index, setTodo, setDoneTasks}:Props) => {
                         handleEdit()
                     }}/>
             }
-            <MdDelete className='button' onClick={()=>{handleDelete(true)}}/>
+            <MdDelete className='button' onClick={()=>{handleDelete(task.isDone)}}/>
             {
                 !task.isDone && !edit? <span className='button round' onClick={() => {handleDone()}}>
                 <IoMdDoneAll/>
